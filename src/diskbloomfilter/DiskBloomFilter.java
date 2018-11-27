@@ -28,6 +28,7 @@ public class DiskBloomFilter {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
+
         for (int i = 0; i < 100; i++) {
             System.out.println("Start");
 
@@ -44,8 +45,11 @@ public class DiskBloomFilter {
                 }
             }
 
+            System.out.println("Words " + words.size());
+            double errorPossibility=0.01;
+            System.out.println("errorPossibility " + errorPossibility);
             //Hinzufügen der Wörter in unseren Bloom Filter
-            BloomFilter b = new BloomFilter(words.size(), 0.01);
+            BloomFilter b = new BloomFilter(words.size(), errorPossibility);
             for (String word : words) {
                 b.addElement(word);
             }
@@ -81,7 +85,7 @@ public class DiskBloomFilter {
                 System.out.println("wrongContains=" + wrongContains);
 
             }
-            System.out.println("Start");
+            System.out.println("End");
         }
     }
 }

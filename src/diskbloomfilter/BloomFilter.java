@@ -27,6 +27,7 @@ public class BloomFilter {
     private boolean[] elemente;
 
     public BloomFilter(int expectetElements, double errorPossibility) {
+        
         this.expectetElements = expectetElements;
         this.errorPossibility = errorPossibility;
         this.arrayLength = calcArrayLength();
@@ -38,23 +39,23 @@ public class BloomFilter {
     }
 
     private int calcNumberHashFunctions() {
-        double t1=((double)arrayLength / (double)expectetElements);
-        double t2=Math.log(2.0);
-        double t3= t1*t2;
+        double t1 = ((double) arrayLength / (double) expectetElements);
+        double t2 = Math.log(2.0);
+        double t3 = t1 * t2;
         double t = ((arrayLength / expectetElements) * Math.log(2.0));
-        int val=(int) Math.round(t);
-        if (val<1) {
-            val=1;
+        int val = (int) Math.round(t);
+        if (val < 1) {
+            val = 1;
         }
         return val;
     }
 
     private int calcArrayLength() {
-        double mlep=Math.log((double)errorPossibility);
-        double ml2=Math.log(2.0) * Math.log(2.0);
-        int result=(int)Math.round(-(expectetElements*mlep)/ml2);
+        double mlep = Math.log((double) errorPossibility);
+        double ml2 = Math.log(2.0) * Math.log(2.0);
+        int result = (int) Math.round(-(expectetElements * mlep) / ml2);
         return result;
-    
+
     }
 
     private void generateHaschFunctions() {
@@ -72,19 +73,19 @@ public class BloomFilter {
 
     public void addElement(String text) {
         for (int i = 0; i < numberHashFunctions; i++) {
-            HashFunction hf=hashFunctions.get(i);
-            long hashL=hf.hashString(text,  Charset.defaultCharset()).asLong();
-            int elementPosition=mod(hashL);
-            elemente[elementPosition]=true;
+            HashFunction hf = hashFunctions.get(i);
+            long hashL = hf.hashString(text, Charset.defaultCharset()).asLong();
+            int elementPosition = mod(hashL);
+            elemente[elementPosition] = true;
         }
     }
-    
-    public boolean containElement(String text){
+
+    public boolean containElement(String text) {
         for (int i = 0; i < numberHashFunctions; i++) {
-            HashFunction hf=hashFunctions.get(i);
-            long hashL=hf.hashString(text,  Charset.defaultCharset()).asLong();
-            int elementPosition=mod(hashL);
-            if ( !elemente[elementPosition]) {
+            HashFunction hf = hashFunctions.get(i);
+            long hashL = hf.hashString(text, Charset.defaultCharset()).asLong();
+            int elementPosition = mod(hashL);
+            if (!elemente[elementPosition]) {
                 return false;
             }
         }
@@ -93,7 +94,7 @@ public class BloomFilter {
 
     public int mod(long value) {
         int temp = (int) ((value % arrayLength + arrayLength) % arrayLength);
-        return (int)temp;
+        return (int) temp;
     }
 
 }
