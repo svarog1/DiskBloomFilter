@@ -28,44 +28,39 @@ public class DiskBloomFilter {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws FileNotFoundException, IOException {
-        List<String> words = new ArrayList<>();
 
+        //Einlesen der zu testenden wörter. 
+        List<String> words = new ArrayList<>();
         {
             File file = new File("E:\\FH\\Algd2\\DiskBloomFilter\\src\\diskbloomfilter\\words.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
-
             String st;
+            int count = 0;
             while ((st = br.readLine()) != null) {
                 words.add(st);
+                count++;
             }
         }
 
-        List<String> testWords = new ArrayList<>();
+        //Hinzufügen der Wörter in unseren Bloom Filter
         BloomFilter b = new BloomFilter(words.size(), 0.01);
+        for (String word : words) {
+            b.addElement(word);
+        }
 
+        //Einlesen unserer Test wörter
+        List<String> testWords = new ArrayList<>();
         {
             File file = new File("E:\\FH\\Algd2\\DiskBloomFilter\\src\\diskbloomfilter\\testWords.txt");
             BufferedReader br = new BufferedReader(new FileReader(file));
-
             String st;
             while ((st = br.readLine()) != null) {
                 testWords.add(st);
-                b.addElement(st);
             }
         }
 
-        
-
         //contains
         {
-            int containsforShure=0;
-            for (String testWord : testWords) {
-                if (words.contains(testWord)) {
-                    containsforShure++;
-                }
-            }
-            
-             
             int contains = 0;
             int notContains = 0;
             int wrongContains = 0;

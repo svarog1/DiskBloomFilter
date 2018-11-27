@@ -11,6 +11,7 @@ import com.google.common.hash.Hashing;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 /**
  *
@@ -46,7 +47,6 @@ public class BloomFilter {
             val=1;
         }
         return val;
-        //return (int) ((arrayLength / expectetElements) * Math.log(2));
     }
 
     private int calcArrayLength() {
@@ -58,8 +58,9 @@ public class BloomFilter {
     }
 
     private void generateHaschFunctions() {
+        Random r = new Random(System.currentTimeMillis());
         for (int i = 0; i < this.numberHashFunctions; i++) {
-            hashFunctions.add(Hashing.murmur3_128(i));
+            hashFunctions.add(Hashing.murmur3_128(r.nextInt()));
         }
     }
 
@@ -91,8 +92,14 @@ public class BloomFilter {
     }
 
     public int mod(long value) {
-        int temp = (int) ((value % arrayLength + arrayLength) % arrayLength);
-        return temp;
+        long temp=value;
+        if (value < 0) {
+                temp -= ((temp /arrayLength)-1) * arrayLength;
+            } else {
+                temp -= (temp /arrayLength) * arrayLength;
+            }
+        //int temp = (int) ((value % arrayLength + arrayLength) % arrayLength);
+        return (int)temp;
     }
 
 }
