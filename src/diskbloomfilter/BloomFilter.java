@@ -92,13 +92,7 @@ public class BloomFilter {
     }
 
     public int mod(long value) {
-        long temp=value;
-        if (value < 0) {
-                temp -= ((temp /arrayLength)-1) * arrayLength;
-            } else {
-                temp -= (temp /arrayLength) * arrayLength;
-            }
-        //int temp = (int) ((value % arrayLength + arrayLength) % arrayLength);
+        int temp = (int) ((value % arrayLength + arrayLength) % arrayLength);
         return (int)temp;
     }
 
